@@ -1,13 +1,104 @@
 
-  {{studentData}}
-<div class="leftInfo">
-<form ng-submit="updateStudent(studentData.studentPortf)">
 
-<br>
-<label>Name</label>: {{studentData.studentPortf.name.first}} {{studentData.studentPortf.name.last}}
-<br>
-Email: {{studentData.studentPortf.email}}
-<br>
+  {{studentData.studentPortf}}
+<form editable-form name="editableForm" onaftersave="updateStudent(studentData.studentPortf)">
+	<div>
+	<input type="file" images="images" accept="image/pdf*" ng-model="s3url" fileread />
+	{{s3url}}
+	
+	</div>
+
+	<div>
+		<span editable-text="studentData.studentPortf.name.first"  e-name="name" e-required e-placeholder="Enter name">{{  (studentData.studentPortf.name.first || 'Enter Name')|uppercase }}</span>
+		<span editable-text=" studentData.studentPortf.name.last" e-name="lastname" e-required e-placeholder="Enter last name">{{ (studentData.studentPortf.name.last|| 'empty')|uppercase }}</span>
+	</div>
+	<div>
+		<span editable-text="studentData.studentPortf.email" e-name="email" e-placeholder="Enter email">{{ studentData.studentPortf.email || 'empty' }}</span>
+	</div>
+
+<!-- 	<div>
+		<span editable-text="studentData.studentPortf.github" e-name="github" e-placeholder="Enter Github Account">{{ studentData.studentPortf.github || 'GitHub Account' }}</span>
+	</div> -->
+	<div>
+	  <a href='http://{{studentData.studentPortf.github}}'  editable-text="studentData.studentPortf.github" e-placeholder="Enter Github Account">
+	    {{ studentData.studentPortf.github}}
+	  </a>
+	</div>
+	<div>
+		<span editable-text="studentData.studentPortf.personalWebsite" e-name="personalWebsite" e-placeholder="Enter Website link">{{ studentData.studentPortf.personalWebsite || 'Personal Website' }}</span>
+	</div>
+
+	<div>
+	  <a href='http://{{studentData.studentPortf.personalWebsite}}'  editable-text="studentData.studentPortf.personalWebsite" e-placeholder="Enter Website link" >
+	    http://{{ studentData.studentPortf.personalWebsite}}
+	  </a>
+	</div>
+		<div>
+		<span editable-text="studentData.studentPortf.linkdIn" e-name="linkdIn" e-placeholder="Enter LinkdIn">{{ studentData.studentPortf.linkdIn || 'LInkdIn' }}</span>
+	</div>
+	<div>
+		<a href='http://{{studentData.studentPortf.LinkdIn}}'  editable-text="studentData.studentPortf.LinkdIn" e-placeholder="Enter LinkdIn">
+	    {{ studentData.studentPortf.LinkdIn ||'Your LinkdIn Account' }}
+	  	</a>
+	</div>
+	<div>
+      <!-- editable Class Name (select-local) -->
+    
+      <span editable-select="studentData.studentPortf.className" e-name="classNames" e-ng-options="c.value as c.text for c in classNames">
+        {{ (classNames | filter:{value: studentData.studentPortf.className})[0].text || classNames[0] }}
+      </span>
+	<div>
+      <!-- editable Cohort Location (select-local) -->
+    
+      <span editable-select="studentData.studentPortf.cohortLoc" e-name="cohortLoc" e-ng-options="c.value as c.text for c in cohortLocations">
+        {{ (cohortLocations | filter:{value: user.cohortLoc})[0].text || cohortLocations[0] }}
+      </span>
+    </div>
+    	<div>
+      <!-- editable Cohort Name (select-local) -->
+    
+      <span editable-select="studentData.studentPortf.cohort.cohortName" e-name="cohortName" e-ng-options="c.value as c.text for c in cohortName">
+        {{ (cohortName | filter:{value: user.cohortName})[0].text || cohortName[0] }}
+      </span>
+    </div>
+
+	<div class="BioBox">
+		<span editable-text="studentData.studentPortf.Bio" e-name="Bio" e-required e-placeholder="Tell us about you">{{ studentData.studentPortf.Bio || 'About you' }}</span>
+	</div>
+	<div>
+      <!-- editable status (select-local) -->
+      
+      <span editable-select="user.status" e-name="status" e-ng-options="s.value as s.text for s in statuses">
+        {{ (statuses | filter:{value: user.status})[0].text || 'Not set' }}
+      </span>
+    </div> 
+ 
+	<div>
+		<span editable-text="user.currentLoc.city" e-name="currentLoc.city" e-required>{{ user.currentLoc.city || 'empty' }}</span>
+		<span editable-text="user.currentLoc.state" e-name="currentLoc.state" e-required>{{ user.currentLoc.state || 'empty' }}</span>
+	</div>
+	<div class="buttons" > <!-- ng-if='logged in' authentication problem -->
+      <!-- button to show form -->
+      <button type="button" class="btn btn-default" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+        Edit
+      </button>
+      <!-- buttons to submit / cancel form -->
+      <span ng-show="editableForm.$visible">
+        <button type="submit" class="btn btn-primary" ng-disabled="editableForm.$waiting">
+          Save
+        </button>
+        <button type="button" class="btn btn-default" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+          Cancel
+        </button>
+      </span>
+    </div>
+</form>
+
+
+
+
+
+
 <a href="http://www.github.com">Github</a>
 <br>
 <a href="http://www.devmoutai.in">Personal Website</a>
