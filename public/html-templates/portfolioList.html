@@ -6,17 +6,17 @@
     <div>
       <div class="filteralign">
       <div class="col-md-3 col-md-offset-1">
-        <p><b>School Location</b></p>
+        <p><strong>School Location</strong></p>
         <button type="button" class="btn btn-default" ng-click="studentFilter={classLocation:'UT'}">Utah</button>
         <button type="button" class="btn btn-default" ng-click="studentFilter={classLocation:'TX'}">Texas</button>
       </div>
       <div class="col-md-3">
-        <p><b>Class Type</b></p>
+        <p><strong>Class Type</strong></p>
         <button type="button" class="btn btn-default" ng-click="studentFilter={classType:'Web Development'}">Web Development</button>
         <button type="button" class="btn btn-default" ng-click="studentFilter={classType:'IOS'}">iOS Development</button>
       </div>
       <div class="col-md-3">
-        <p><b>Reset Filters</b></p>
+        <p><strong>Reset Filters</strong></p>
         <button type="button" class="btn btn-default" ng-click="studentFilter=undefined">Reset Filters</button>
       </div>
     </div>
@@ -25,7 +25,6 @@
     <div class="cohortProfileView col-md-12">
       <div ng-repeat="profile in cohort | filter:studentFilter" ng-click="goToCohort(profile.classId)">
         <div class="cohortHeading row">
-
           <div class="col-md-6">
             <h3>#{{profile.cohort}}</h3>
           </div>
@@ -36,8 +35,16 @@
 
           </div>
         </div>
-        <div id="previewContainer col-md-12">
-          <ul class="studentpreview" id="studentsample">
+        <div class="previewContainer col-md-offset-2">
+          <div class="col-md-3 polaroid" ng-repeat="student in profile.profiles | limitTo:3">
+            <img src="{{student.studentpic}}" />
+            <span>
+            <p>
+              {{student.firstname}} {{student.lastname}}
+            </p></span>
+          </div>
+                <br>
+          <!-- <ul class="studentpreview" id="studentsample">
             <li class="polaroid" ng-repeat="student in profile.profiles | limitTo:3">
               <img src="{{student.studentpic}}" style="width: 190px; height: 198px" /> &nbsp
               <span>
@@ -46,8 +53,11 @@
               </span>
             </li>
           </ul>
-          &nbsp
-          <hr class="style8">
+          &nbsp -->
+          <div class="col-md-12">
+              <hr class="style8">
+          </div>
+
         </div>
       </div>
     </div>

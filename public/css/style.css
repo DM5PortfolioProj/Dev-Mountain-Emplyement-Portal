@@ -186,8 +186,13 @@ fade-font {
 /*.cohortProfileView {
   margin-top: 200px;
 }*/
-#previewContainer {
+.previewContainer {
   text-align: center;
+}
+
+.previewContainer img {
+  width: 190px;
+  height: 198px;
 }
 #studentsample {
   list-style-type: none;
