@@ -1,3 +1,8 @@
+html, body {
+  width: auto !important;
+  overflow-x: hidden !important;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -70,14 +75,37 @@ a {
   color: black!important;
 }
 
+.frontcontainer{
+  position: relative;
+}
+
 .welcomelanding {
+  position: relative;
+  text-align: center;
   margin-top: -20px;
-  background-position: center;
-  background-size: cover;
   height: 100vh;
   background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://scontent-sjc2-1.xx.fbcdn.net/hphotos-xfa1/t31.0-8/s2048x2048/11174272_842916812445854_1885598337984820889_o.jpg);
+  background-position: center;
+  background-size: cover;
   background-repeat: no-repeat;
 }
+
+.textanimate {
+  position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   width: 100%;
+   height: 30%;
+   margin: auto;
+  /*text-align: center;*/
+  color: white;
+}
+.textanimate h1 {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
 .logoArt {
   width: 510px;
 }
@@ -106,13 +134,7 @@ h2 {
   height: 30px
 }
 
-.loginwrapper {
-  text-align: center;
-  color: white;
-}
-.loginwrapper h1 {
-  font-family: 'Josefin Sans', sans-serif;
-}
+
 .classes {
   display: -webkit-box;
   /* OLD - iOS 6-, Safari 3.1-6 */
@@ -147,7 +169,6 @@ fade-font {
   box-decoration-break: clone;
 }
 .contact {
-  margin-top: 350px;
   background-color: grey;
   text-align: center;
   padding: 10px;
