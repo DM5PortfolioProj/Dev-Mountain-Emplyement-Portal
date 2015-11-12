@@ -13,6 +13,7 @@ var morgan = require('morgan');
 var axios = require('axios');
 
 var config = require('./config.js');
+var portNum = config.portNum;
 
 
 var app = express();
@@ -369,7 +370,6 @@ router.route('/api/student/:id')
 
 
 // Connections
-var portNum = config.portNum;
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
