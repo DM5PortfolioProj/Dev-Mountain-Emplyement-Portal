@@ -367,7 +367,6 @@ router.route('/api/getCohort/:id')
 router.route('/api/student/:id')
   .get(studentPortfCtrl.getStudentById);
 
-//connections
 
 // Connections
 var portNum = config.portNum;
@@ -381,7 +380,7 @@ db.once('open', function(callback) {
 var mongodbUri = 'mongodb://adriana:group@ds033317.mongolab.com:33317/devmtn';
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);
 
-mongoose.connect(mongodbUri);
+mongoose.connect(mongooseUri);
 
 app.listen(portNum, function() {
   console.log('port:', portNum);
