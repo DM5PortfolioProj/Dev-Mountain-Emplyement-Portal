@@ -371,16 +371,18 @@ router.route('/api/student/:id')
 
 // Connections
 
+// Connections
+
+
+var mongooseUri = 'mongodb://localhost/devmountainemploymentportal';
+mongoose.connect(mongooseUri);
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function(callback) {
-  console.log('Mongoose:', mongooseUri);
+  console.log('Mongoose on:', mongooseUri);
 });
 
-var mongodbUri = 'mongodb://adriana:group@ds033317.mongolab.com:33317/devmtn';
-var mongooseUri = uriUtil.formatMongoose(mongodbUri);
-
-mongoose.connect(mongooseUri);
 
 app.listen(portNum, function() {
   console.log('port:', portNum);
