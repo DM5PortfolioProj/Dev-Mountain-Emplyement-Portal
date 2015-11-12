@@ -12,6 +12,8 @@ var multipart = require('connect-multiparty')
 var morgan = require('morgan');
 var axios = require('axios');
 
+var config = require('./config.js');
+
 
 var app = express();
 var router = express.Router();
@@ -36,7 +38,9 @@ var imageController = require("./controller/imageController.js");
 
 //middleware
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json({
   limit: '50mb'
@@ -135,8 +139,6 @@ app.post('/login', function(req, res, next) {
 
 
 
-
-
 /////////////Biginning of Dev Mountain Auth//////////////
 //***********************************//
 //authentication specific stuff starts here
@@ -146,7 +148,8 @@ var jwt = require('jsonwebtoken');
 // app name and client token should be given to you
 var app_name = 'dev-ep' // your app name here
 var client_token = 'something' // your client token here
-var authenticationRedirectUrl = 'http://localhost:1337/login/?bounce=' + app_name + '&token=' + client_token;
+var authenticationRedirectUrl = 'http://localhost:1337/login/?bounce=' +
+  app_name + '&token=' + client_token;
 
 
 // authentication endpoint will look like
@@ -165,47 +168,39 @@ authRoutes.get('/getSessionUser', function(req, res) {
 // allows app state or route to be passed here, saved in the session and redirected to after authentication
 authRoutes.get('/getUser/:type', function(req, res) {
 
-// TODO remove hardcoded for testing
+  // TODO remove hardcoded for testing
 
-if (req.params.type === 'admin') {
-  req.session.decoded =
-        {
-         "email": "test2@test.com",
-         "id": 94,
-         "roles": [
-           {
-             "role": "admin",
-             "id": 1
-           },
-           {
-             "role": "mentor",
-             "id": 2
-           },
-           {
-             "role": "lead_instructor",
-             "id": 3
-           }
-         ],
-         "iat": 1443128174,
-         "exp": 1443214574
-        }
-} else if (req.params.type === 'student') {
-   req.session.decoded =
-        {
-         "email": "test@test.com",
-         "id": 95,
-         "roles": [
-           {
-             "role": "student",
-             "id": 4
-           }
-         ],
-         _id: '55f8480baec60b07268b0f59',
+  if (req.params.type === 'admin') {
+    req.session.decoded = {
+      "email": "test2@test.com",
+      "id": 94,
+      "roles": [{
+        "role": "admin",
+        "id": 1
+      }, {
+        "role": "mentor",
+        "id": 2
+      }, {
+        "role": "lead_instructor",
+        "id": 3
+      }],
+      "iat": 1443128174,
+      "exp": 1443214574
+    }
+  } else if (req.params.type === 'student') {
+    req.session.decoded = {
+      "email": "test@test.com",
+      "id": 95,
+      "roles": [{
+        "role": "student",
+        "id": 4
+      }],
+      _id: '55f8480baec60b07268b0f59',
 
-         "iat": 1443128174,
-         "exp": 1443214574
-        }
-}
+      "iat": 1443128174,
+      "exp": 1443214574
+    }
+  }
 
   // if the decoded token is already on the session, just pass it back
   if (req.session.decoded) {
@@ -233,7 +228,10 @@ authRoutes.get('/ms/callback', function(req, res) {
   if (token) {
     jwt.verify(token, config.jwtSecret, function(err, decoded) {
       if (err) {
-        return res.json({success: false, message: 'Failed to verify token'});
+        return res.json({
+          success: false,
+          message: 'Failed to verify token'
+        });
       } else {
 
         //token is valid
@@ -266,12 +264,7 @@ authRoutes.get('/logout', function(req, res) {
 
 
 
-
-
-
 /////////////End of Dev Mountain Auth///////////////////
-
-
 
 
 
@@ -321,7 +314,7 @@ router.route('/api/studentPortfolio')
   .get(studentPortfCtrl.read);
 
 router.route('/api/studentPortfolio/:id')
-  .get(studentPortfCtrl.getStudentById)// Using This one for editable forms on PublicStudentProfile.html
+  .get(studentPortfCtrl.getStudentById) // Using This one for editable forms on PublicStudentProfile.html
   .post(authCtrl.isAuthenticated, studentPortfCtrl.create)
   .put(authCtrl.isAuthenticated, studentPortfCtrl.update)
   .delete(authCtrl.isAuthenticated, studentPortfCtrl.delete);
@@ -375,19 +368,21 @@ router.route('/api/student/:id')
   .get(studentPortfCtrl.getStudentById);
 
 //connections
+
+// Connections
+var portNum = config.portNum;
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function(callback) {
+  console.log('Mongoose:', mongooseUri);
+});
+
 var mongodbUri = 'mongodb://adriana:group@ds033317.mongolab.com:33317/devmtn';
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);
 
 mongoose.connect(mongodbUri);
-mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-mongoose.connection.once('open', function() {
-  console.log('Connected to mongodb @', mongodbUri);
-})
 
-
-
-var port = 3000;
-
-var server = app.listen(process.env.PORT || port, function() {
-  console.log('Server up and running at', server.address().port);
+app.listen(portNum, function() {
+  console.log('port:', portNum);
 });
